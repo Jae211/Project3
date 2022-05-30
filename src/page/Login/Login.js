@@ -34,7 +34,6 @@ function Login(){
       <div className="logo">
         <Link to="/">
           <div className="logoimg"/>
-          
         </Link>
       </div>
 
@@ -56,7 +55,25 @@ function Login(){
          onClick={onSubmit}
          text={"로그인"}
          disabled={error}
-        />
+        /><br/>
+      </div>
+
+      <div className='linkbox'>
+        <Link to="/findid" style={{ textDecoration: 'none' }}>
+          <span className="linktext">아이디 찾기</span>
+        </Link>
+        &nbsp;<span>|</span>&nbsp;
+        <Link to="/findpw" style={{ textDecoration: 'none' }}>
+          <span className="linktext">비밀번호 찾기</span>
+        </Link>
+        &nbsp;
+      </div>
+
+      <div className='toregister'>
+        <span className="descript">아직 리치마켓의 회원이 아니라면?</span>
+        <Link to="/register" style={{ textDecoration: 'none' }}>
+          <span className="descriptlink"> 회원가입</span>
+        </Link>
       </div>
     </div>
   )
