@@ -20,3 +20,16 @@ span.descriptlink {
     font-size: 18px;
     color: #FF9696;
 }
+
+div.toregister {
+    text-align: center;
+}
+
+div.errmsgbox {
+    text-align: center;
+}
+
+span.regerrormsg {
+    font-size: 16px;
+    color: red;
+}

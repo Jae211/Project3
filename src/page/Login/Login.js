@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Axios from 'axios'
 import Input from "../../components/Input";
 import SubmitBtn from "../../components/SubmitBtn";
 
@@ -7,13 +8,25 @@ import './Login.css'
 
 function Login(){
 
+  const navigate = useNavigate();
+
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [error, setError] = useState(false);
   const [errormsg, setErrormsg] = useState('');  
 
   const onSubmit = () => {
-    //axios.post //~DB에 정보넣기~
+    Axios.post('http://localhost:8080/login', {
+      id: id,
+      pw: pw,
+    }).then((res) => {
+      if(res.data.message){ //login 실패 시
+        alert(res.data.message);
+      }
+      else{
+        navigate('/');
+      }
+    })
   }
 
   useEffect(() => {
@@ -31,6 +44,7 @@ function Login(){
 
   return (
     <div className='main'>
+      <div>
       <div className="logo">
         <Link to="/">
           <div className="logoimg"/>
@@ -51,6 +65,9 @@ function Login(){
           value={pw}
           setValue={setPw}
         /><br/>
+        <div className="errmsgbox">
+          {error ? <span className="regerrormsg">{errormsg}</span> : <></>}
+        </div>
         <SubmitBtn
          onClick={onSubmit}
          text={"로그인"}
@@ -74,6 +91,7 @@ function Login(){
         <Link to="/register" style={{ textDecoration: 'none' }}>
           <span className="descriptlink"> 회원가입</span>
         </Link>
+      </div>
       </div>
     </div>
   )
