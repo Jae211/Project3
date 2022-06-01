@@ -14,11 +14,16 @@
 }
 
 /* search */
+.descript {
+    height: 100px;
+}
+
 #writeButton {
+    display: block;
     width: 130px;
     height: 50px;
     background-color: #ff9696;
-    border: 0px;
+    border: none;
     float: right;
     margin-right: 170px;
     font-size: 20px;

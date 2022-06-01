@@ -28,6 +28,29 @@
     /* font-size: 44px;
     font-weight: bold; */
 }
+#inline {
+    display: inline-block;
+}
+#search {
+    display: inline-block;
+    width: 610px;
+    height: 50px;
+}
+.searchDiv {
+    display: inline-block;
+    width: 540px;
+    height: 50px;
+    line-height: 50px;
+    border: 1px solid #ff3d60;
+}
+.searchButton {
+    display: inline-block;
+    width: 55px;
+    height: 55px;
+    border: none;
+    background-color: #ff3d60;
+
+}
 #nav {
     margin-right: 30px;
     display: flex;

@@ -10,7 +10,7 @@ export default function SEARCH(){
                 <Header detail='판매'/>
             </div>
             <div className="main">
-                <div><button id="writeButton" type="button">판매글쓰기</button></div>
+                <div className="descript"><button id="writeButton" type="button">판매글쓰기</button></div>
                 <div>
                     <ItemInfo image='`${process.env.PUBLIC_URL}/prod09.png`' title='당근 팔아요' price='10,000원'/>
                     <ItemInfo image='`${process.env.PUBLIC_URL}/prod09.png`' title='오이 팔아요' price='15,000원'/>

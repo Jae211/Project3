@@ -11,6 +11,11 @@ export default function Header(props){
                     <div className="market_name">리치마켓</div>
                     <div className='detail_name'>{props.detail}</div>
                 </div>
+                <div id="search">
+                    <div id="inline"><input className='searchDiv' type='text'></input></div>
+                    <div id="inline"><button className='searchButton' type="button">O</button></div>
+                </div>
+                
                 <div id='nav'>
                     <div className='navContent'>판매</div>
                     <div className='navContent'>구매</div>
