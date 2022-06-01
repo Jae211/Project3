@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Axios from 'axios'
 import Input from "../../components/Input";
 import SubmitBtn from "../../components/SubmitBtn";
+import Header from "../../components/Header";
 
 import './Login.css'
 
@@ -44,12 +45,13 @@ function Login(){
 
   return (
     <div className='main'>
-      <div>
-      <div className="logo">
+      
+      {/* <div className="logo">
         <Link to="/">
           <div className="logoimg"/>
         </Link>
-      </div>
+      </div> */}
+      <Header />
 
       <div className='login'>
         <Input
@@ -91,7 +93,6 @@ function Login(){
         <Link to="/register" style={{ textDecoration: 'none' }}>
           <span className="descriptlink"> 회원가입</span>
         </Link>
-      </div>
       </div>
     </div>
   )
