@@ -1,0 +1,48 @@
+/* Header */
+.header{
+    width: 1280px;
+}
+.header2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    height: 56px;
+    width: 1280px;
+    margin-right: 96px;
+}
+.header2Content {
+    margin-left: 10px;
+}
+.title {
+    width: 1280px;
+    height: 144px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#name {
+    margin-left: 30px;
+    display: flex;
+    flex-direction: row;
+    /* font-size: 44px;
+    font-weight: bold; */
+}
+#nav {
+    margin-right: 30px;
+    display: flex;
+    flex-direction: row;
+}
+.navContent {
+    margin-right: 20px;
+    font-size: 20px;
+}
+.market_name{
+    font-size: 44px;
+    font-weight: bold;
+}
+.detail_name{
+    margin-left: 20px;
+    margin-top: 20px;
+    font-size: 20px;
+}
