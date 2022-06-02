@@ -1,0 +1,19 @@
+@font-face {
+    font-family: "Noto Sans KR";
+    src: url("./fonts/NotoSansKR-Regular.otf");
+}
+
+@font-face {
+    font-family: "Dohyeon";
+    src: url(./fonts/BMDOHYEON_otf.otf);
+}
+
+* {
+    font-family: 'Noto Sans KR';
+}
+
+main {
+    margin: auto;
+    width: 1240px;
+    padding: 20px;
+}

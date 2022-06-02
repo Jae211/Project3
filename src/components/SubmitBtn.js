@@ -1,4 +1,4 @@
-import './SubmitBtn.css'
+import '../style/SubmitBtn.css'
 
 function SubmitBtn(props){
   return (

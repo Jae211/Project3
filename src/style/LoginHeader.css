@@ -1,0 +1,64 @@
+.Top {
+  margin: auto;
+  height: 56px;
+  width: 1280px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+}
+
+.TopNav {
+  font-size: 16px;
+  margin-right: 32px;
+}
+
+.Divider {
+  height: 1px;
+  background-color: #f2f2f2;
+}
+
+.Title {
+  margin: auto;
+  margin-top: 150px;
+  height: 144px;
+  width: 1280px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.TitleName {
+  margin: auto;
+  height: 144px;
+  width: 1280px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#Logo {
+  width: 64px;
+  height: 64px;
+  background-color: #ff3d60;
+  margin-right: 16px;
+  margin-left: 400px;
+}
+
+#TitleText {
+  font-size: 44px;
+  font-weight: bold;
+  margin-top: 13px;
+  font-family: 'Dohyeon';
+}
+
+.TitleNav {
+  font-size: 20px;
+  margin-right: 32px;
+}
+
+#TitleDetail {
+  margin-left: 5px;
+  font-size: 30px;
+  font-weight: bold;
+}
