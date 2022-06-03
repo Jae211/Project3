@@ -4,47 +4,48 @@
 * {
     font-family: 'Noto Sans KR';
 }
-.head {
+.Head {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.main {
-    margin-left: 120px;
+.Main {
+    margin-left: 350px;
+    margin-right: 350px;
 }
 
 /* search */
-.descript {
+.Descript {
     height: 100px;
 }
 
-#writeButton {
+#WriteButton {
     display: block;
     width: 130px;
     height: 50px;
     background-color: #ff9696;
     border: none;
     float: right;
-    margin-right: 170px;
+    margin-right: 35px;
     font-size: 20px;
 }
 
-.itemInfo {
+.ItemInfo {
     display: inline-block;
     margin-left: 50px;
 }
 
-#itemImage {
-    width: 210px;
-    height: 210px;
+#ItemImage {
+    width: 209px;
+    height: 209px;
 }
 
-#itemTitle {
-    font-size: 20px;
+#ItemTitle {
+    font-size: 22px;
 }
 
-#itemPrice {
-    font-size: 15px;
+#ItemPrice {
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 60px;
 }

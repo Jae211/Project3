@@ -1,71 +1,84 @@
-/* Header */
-.header{
-    width: 1280px;
-}
-.header2 {
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    align-items: center;
+.Top {
+    margin: auto;
     height: 56px;
     width: 1280px;
-    margin-right: 96px;
-}
-.header2Content {
-    margin-left: 10px;
-}
-.title {
-    width: 1280px;
-    height: 144px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+}
+
+.TopNav {
+    font-size: 16px;
+    margin-right: 32px;
+}
+  
+.Divider {
+    height: 1px;
+    background-color: #f2f2f2;
+}
+  
+.Title {
+    margin: auto;
+    height: 144px;
+    width: 1280px;
+    display: flex;
+    flex-direction: row;
     align-items: center;
 }
-#name {
-    margin-left: 30px;
+  
+.TitleName {
+    margin: auto;
+    height: 144px;
+    width: 1280px;
     display: flex;
     flex-direction: row;
-    /* font-size: 44px;
-    font-weight: bold; */
+    align-items: center;
 }
-#inline {
-    display: inline-block;
-}
-#search {
-    display: inline-block;
-    width: 610px;
-    height: 50px;
-}
-.searchDiv {
-    display: inline-block;
-    width: 540px;
-    height: 50px;
-    line-height: 50px;
-    border: 1px solid #ff3d60;
-}
-.searchButton {
-    display: inline-block;
-    width: 55px;
-    height: 55px;
-    border: none;
+  
+#Logo {
+    width: 64px;
+    height: 64px;
     background-color: #ff3d60;
-
+    margin-right: 16px;
+    margin-left: 32px;
 }
-#nav {
-    margin-right: 30px;
-    display: flex;
-    flex-direction: row;
-}
-.navContent {
-    margin-right: 20px;
-    font-size: 20px;
-}
-.market_name{
+  
+#TitleText {
     font-size: 44px;
     font-weight: bold;
 }
-.detail_name{
-    margin-left: 20px;
-    margin-top: 20px;
+  
+.TitleNav {
     font-size: 20px;
+    margin-right: 32px;
+}
+
+.Search {
+    margin: auto;
+    height: 144px;
+    width: 1280px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.SearchDiv {
+    width: 520px;
+    height: 60px;
+    line-height: 60px;
+    border: 1px solid #ff3d60;
+    font-size: 20px;
+}
+
+.SearchButton {
+    width: 64px;
+    height: 64px;
+    border: none;
+    background-color: #ff3d60;
+}
+
+.SearchButtonImage {
+    width: 50px;
+    height: 50px;
 }
