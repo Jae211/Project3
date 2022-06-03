@@ -1,0 +1,147 @@
+.ManageMain{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.ManageMain .ListRow{
+    height: 60px;
+    border-bottom: 1px solid #000;
+}
+
+/* ManagerProduct */
+.ReportedProduct, .ProductList{
+    width: 1200px;
+    margin: auto;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    border-collapse: collapse;
+    text-align: center;
+}
+.ReportedProduct caption, .ProductList caption{
+    width: 1200px;
+    margin: 8px;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+}
+.ProductHead{
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    font-size: 20px;
+    height: 60px;
+}
+.ProductIndex{
+    width: 100px;
+}
+.ProductWriter{
+    width: 200px;
+}
+.ProductCategory{
+    width: 200px;
+}
+.ProductTitle{
+    width: 400px;
+}
+.ProductPrice{
+    width: 200px;
+}
+.DeleteProduct{
+    width: 100px;
+}
+.DeleteBtn{
+    width: 52px;
+    height: 34px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #ff3d60;
+    border: solid 1px #ff3d60;
+}
+
+/* ManageUser */
+.UserList{
+    width: 1200px;
+    margin: auto;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    border-collapse: collapse;
+    text-align: center;
+}
+.UserHead{
+    border-bottom: 2px solid #000;
+    font-size: 20px;
+}
+.UserId{
+    width: 200px;
+}
+.UserNickname{
+    width: 200px;
+}
+.UserName{
+    width: 200px;
+}
+.UserReliable{
+    width: 100px;
+}
+.ChangeReliable{
+    width: 400px;
+}
+.PermanentBan{
+    width: 100px;
+}
+.InputReliable{
+    width: 200px;
+    height: 28px;
+    margin-right: 8px;
+    outline: none;
+}
+.SubmitReliable{
+    width: 52px;
+    height: 34px;
+    font-size: 16px;
+    color: #ff3d60;
+    background-color: #ffffff;
+    border: solid 1px #ff3d60;
+}
+.BanButton{
+    width: 52px;
+    height: 34px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #ff3d60;
+    border: solid 1px #ff3d60;
+}
+
+/* ManageReport */
+.ReportList{
+    width: 1200px;
+    margin: auto;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    border-collapse: collapse;
+    text-align: center;
+}
+.ReportHead{
+    border-bottom: 2px solid #000;
+    font-size: 20px;
+}
+.ReportId{
+    width: 100px;
+}
+.ReportType{
+    width: 200px;
+}
+.ReportTitle{
+    width: 400px;
+}
+.ReporterId{
+    width: 200px;
+}
+.ReportDate{
+    width: 200px;
+}
+.IsSolved{
+    width: 100px;
+}
+.IsSolved .Incomplete{
+    color: #ff3d60;
+}
