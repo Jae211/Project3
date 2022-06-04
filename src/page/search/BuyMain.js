@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import { Link, Navigate, useNaviagte } from "react-router-dom";
 import axios from 'axios';
-import Header from "../../components/Header"
+import Header from "../../components/Header2"
 import ItemInfo from "./components/ItemInfo";
 
 export default function BUY(){
