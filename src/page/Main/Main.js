@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Header from "../../components/Header"
 import ItemInfo from "./components/ItemInfo";
+import '../../style/Main.css';
 
-export default function SELL(){
+export default function MAIN(){
     // 물건 정보
     const [Product, SetProduct] = useState([{
         product_id: '',
@@ -15,7 +16,7 @@ export default function SELL(){
 
     // 전체 구매해요 물건 불러오기
     useEffect(() => {
-        axios.get('http://localhost:8080/sell')
+        axios.get('http://localhost:8080/all')
         .then((res) => {
             SetProduct(res.data);
             console.log(res.data);
@@ -37,12 +38,27 @@ export default function SELL(){
             <div className='Head'>
                 <Header/>
             </div>
-            <div className="Main">
-                <div className="Descript"><button id="WriteButton" type="submit">판매글쓰기</button></div>
-                <div>
-                     {ProductList}
+            <div id="BannerDiv"><img id="BannerImage" src="images/banner.png"></img></div>
+
+            <div className="CategoryBackground">
+                <div className="Items">
+                    <div>
+                        <div className="Description1">Best Category</div>
+                        <div className="Description2">오늘 많은 사람들이 관심있게 지켜본 카테고리입니다.</div>
+                    </div>
                 </div>
             </div>
+
+            <div className="ItemsBackground">
+                <div className="Items">
+                    <div>
+                        <div className="Description1">Just Uploaded</div>
+                        <div className="Description2">최근 업데이트된 상품입니다.</div>
+                        {ProductList}
+                    </div>
+                </div>
+            </div>
+            
         </div>
     )
 }
