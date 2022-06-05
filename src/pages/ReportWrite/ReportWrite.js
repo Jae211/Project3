@@ -23,7 +23,7 @@ function ReportWrite(){
   const [detail, setDetail] = useState('');
 
   const [file, setFile] = useState("");
-  const [fileName, setFileName] = useState('');
+  //const [fileName, setFileName] = useState('');
 
   const goBack = () => {
     navigate(-1);
@@ -83,6 +83,7 @@ function ReportWrite(){
       let now = new Date();
       let month = now.getMonth()+1;
       let date = now.getFullYear() + "-" + month + "-" + now.getDate();
+      const fileName = '';
 
       Axios.post('http://localhost:8080/reportwrite', {
         reporterid: reporterid,

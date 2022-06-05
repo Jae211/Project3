@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './style/Global.css';
 import './style/Notice.css';
-import'./App.css';
 import Message from './pages/Message/MessagePage';
 import Notice from './pages/Notice/NoticePage';
 import NoticeRead from './pages/Notice/NoticeRead';
@@ -21,6 +20,7 @@ import FindPw from './pages/FindPw/FindPw';
 import Register from './pages/Register/Register';
 import ChangeMyInfo from './pages/ChangeMyInfo/ChangeMyInfo'
 import ReportWrite from './pages/ReportWrite/ReportWrite'
+import ProductUpload from './pages/ProductUpload/ProductUpload';
 
 function App() {
   return (
@@ -44,6 +44,7 @@ function App() {
         <Route path="/register" element={<Register/>}/>
         <Route path="/changemyinfo" element={<ChangeMyInfo/>}/>
         <Route path="/report/write" element={<ReportWrite/>}/>
+        <Route path="/product/upload" element={<ProductUpload/>}/>
       </Routes>
     </BrowserRouter>
   );

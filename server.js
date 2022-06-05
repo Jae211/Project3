@@ -7,7 +7,7 @@ const port = 8080;
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "1234",
+  password: "sally1926*",
   database: "lychee",
 });
 
@@ -762,7 +762,7 @@ app.post('/reportwrite', function(req, res) {
  * input : 
  * output : 
  */
-app.post('/newproduct', function(req, res) {
+app.post('/productupload', function(req, res) {
 
   const date = req.body.date;
   const sellerid = req.body.sellerid;
@@ -792,12 +792,11 @@ app.post('/newproduct', function(req, res) {
     datas, (err, result) => {
       if(err){
         console.log("newproduct error");
-        res.send({message: "실패"});
+        res.send(false);
       }
       if(result){
-          //db.query("SELECT `product_id` FROM `PRODUCT` WHERE ")
         console.log("newproduct succeed!");
-        res.send({message: "성공"});
+        res.send(result[0].product_id);
       }
   });
 });
