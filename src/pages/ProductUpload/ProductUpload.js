@@ -13,9 +13,10 @@ function ProductUpload(){
   const inputid = 'idtest'; //location으로 받아옴
   const like = 0;
   const dealflag = 0;
-  const sellerid = '';
-  const buyerid = '';
+  // const [sellerid, setSellerid] = useState('');
+  // const [buyerid, setBuyerid] = useState('');
   let image_num = 0;
+  let sellerid = '', buyerid = '';
 
   const [dealtype, setDealtype] = useState(false);
   const [title, setTitle] = useState('');
@@ -43,8 +44,7 @@ function ProductUpload(){
     let date = now.getFullYear() + "-" + month + "-" + now.getDate()
     + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
 
-    if(dealtype === 0){
-      //판매하기
+    if(dealtype === "0"){
       sellerid = inputid;
     } else {
       buyerid = inputid;
