@@ -33,10 +33,7 @@ function ProductUpload(){
     navigate(-1);
   }
 
-  const pricecheck = (data) => {
-    var regExp = /^[0-9]+$/;
-    return regExp.test(data);
-  }
+  
 
   const onSubmit = () => {
     let now = new Date();
@@ -76,6 +73,11 @@ function ProductUpload(){
     })
   }
 
+  const pricecheck = (data) => {
+    var regExp = /^[0-9]+$/;
+    return regExp.test(data);
+  }
+
   useEffect(() => {
     if (
       dealtype === "" ||
@@ -86,7 +88,7 @@ function ProductUpload(){
       detail === ""
     ) {
       setError(true);
-      setErrormsg("필수 정보를 모두 입력해 주세요");
+      setErrormsg("필수 정보를 모두 입력해주세요.")
     } else if(title.length > 30){
       setError(true);
       setErrormsg("제목은 30자 이내로 작성해야 합니다.")
@@ -182,12 +184,14 @@ function ProductUpload(){
             </tr>
           </tbody>
         </table>
+        <br/>
         {error ? <div className="errmsgbox">
           <span className="regerrormsg">{errormsg}</span>
           </div> : <></>}
         <div className="buttons">
           <button className="back" type="button" onClick={goBack}>취소</button>
-          <button className="submit" type="button" onClick={onSubmit}>글쓰기</button>
+          { error ? <button className="Nsubmit" type="button">글쓰기</button>
+          : <button className="submit" type="button" onClick={onSubmit}>글쓰기</button>}
         </div>
       </div>
     </div>

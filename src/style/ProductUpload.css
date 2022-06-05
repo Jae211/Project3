@@ -69,6 +69,7 @@ div.won {
   align-items: center;
 }
 
+.newproduct .buttons .Nsubmit,
 .newproduct .buttons .back,
 .newproduct .buttons .submit{
   width: 160px;
@@ -86,4 +87,8 @@ div.won {
   background-color: #FFFFFF;
   color: #888888;
 }
-  
+
+.newproduct .buttons .Nsubmit{
+  background-color: #999999;
+  opacity: 0.7;
+}
