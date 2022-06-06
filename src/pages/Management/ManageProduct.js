@@ -42,12 +42,12 @@ export default function ManageProduct() {
     for(let i=Product.length-1; i>=0; i--){
         if(Product[i].report_id !== null){
             ReportedList.push(
-                <ListItem ProductId={Product[i].product_id} WriterId={Product[i].writer_id}
+                <ListItem key={i} ProductId={Product[i].product_id} WriterId={Product[i].writer_id}
                 Category={Product[i].product_category} Title={Product[i].product_title} Price={Product[i].product_price}/>
             );
         }
         ProductList.push(
-            <ListItem ProductId={Product[i].product_id} WriterId={Product[i].writer_id}
+            <ListItem key={i} ProductId={Product[i].product_id} WriterId={Product[i].writer_id}
             Category={Product[i].product_category} Title={Product[i].product_title} Price={Product[i].product_price}/>
         );
     }

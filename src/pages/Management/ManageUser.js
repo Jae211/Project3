@@ -40,7 +40,7 @@ export default function ManageUser() {
     let UserList = [];
     for(let i=User.length-1; i>=0; i--){
         UserList.push(
-            <ListItem UserId={User[i].user_id} Nickname={User[i].user_nickname}
+            <ListItem key={i} UserId={User[i].user_id} Nickname={User[i].user_nickname}
             UserName={User[i].user_name} UserReliable={User[i].user_reliable}/>
         );
     }

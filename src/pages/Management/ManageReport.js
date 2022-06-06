@@ -42,7 +42,7 @@ export default function ManageUser() {
         if(Report[i].solve_id !== null)
             IsSolved ='Complete';
         UserList.push(
-            <ListItem ReportId={Report[i].report_id} ReportType={Report[i].report_type} ReportTitle={Report[i].report_title}
+            <ListItem key={i} ReportId={Report[i].report_id} ReportType={Report[i].report_type} ReportTitle={Report[i].report_title}
             ReporterId={Report[i].reporter_id} ReportDate={Report[i].report_date} IsSolved={IsSolved}/>
         );
     }
