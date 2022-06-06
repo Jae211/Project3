@@ -111,8 +111,8 @@ app.post("/msgSend", function (req, res) {
  * input: qna_id
  * output: 해당 문의사항 전체 정보 / false
  */
-app.get("/qna/detail", function (req, res) {
-  var QnaId = "1"; // 문의사항 번호, post로 수정 필요
+app.post("/qna/detail", function (req, res) {
+  const QnaId = req.body.qna_id;
 
   var SQL = "SELECT * FROM `QNA` WHERE `qna_id` = ?";
   db.query(SQL, QnaId, function (err, row) {
@@ -373,11 +373,7 @@ app.post("/login", function (req, res) {
       }
       if (result.length > 0) {
         console.log("login succeed!");
-        if(result[0].user_reliable === -1){
-          res.send({message: "영구정지 처리된 회원입니다!"})
-        }
-        else
-          res.send({ result: result, message: "일반회원" });
+        res.send({ result: result, message: "일반회원" });
       } else {
         db.query(
           "SELECT * FROM `MANAGER` WHERE `manager_id` = ? AND `manager_pw` = ?",
@@ -392,7 +388,7 @@ app.post("/login", function (req, res) {
               res.send({ result: result, message: "매니저" });
             } else {
               console.log("login fail");
-              res.send({message: "로그인 정보가 존재하지 않습니다!"});
+              res.send(false);
             }
           }
         );
@@ -622,8 +618,8 @@ app.post("/getmyinfo", function (req, res) {
 
 /*
  * 목적 : 내 정보 변경하기
- * input : id, pw, nickname, location
- * output : 실패/성공
+ * input : id
+ * output : user 정보 / null
  */
 app.post("/changemyinfo", function (req, res) {
   const id = req.body.id;
@@ -851,111 +847,3 @@ app.post("/mypage/:type", function (req, res) {
     }
   })
 });
-
-/*
- * 목적 : 신고 글 작성
- * input : 필요한 정보 모두
- * output : 실패 / 성공
- */
-app.post('/reportwrite', function(req, res) {
-    const reporterid = req.body.reporterid;
-    const reportedid = req.body.reportedid;
-    const type = req.body.type;
-    const date = req.body.date;
-    const title = req.body.title;
-    const detail = req.body.detail;
-
-    const attach = req.body.fileName;
-    const cid = req.body.cid;
-    const pid = req.body.pid;
-
-    const datas = [reporterid, reportedid, date, title, type, detail, attach, cid, pid];
-
-    console.log(datas);
-    
-    db.query("INSERT INTO `REPORT` (`reporter_id`, `reported_id`, `report_date`, `report_title`, `report_type`,\
-     `report_detail`, `report_file`, `chatroom_id`, `product_id`) VALUES (?,?,?,?,?,?,?,?,?);",
-
-    datas, (err, result) => {
-        if(err){
-            console.log("writereport error");
-            res.send({message: "실패"});
-        }
-        if(result){
-            console.log("writereport succeed!");
-            res.send({message: "성공"});
-        }
-    });
-});
-
-
-/*
- * 목적 : 제품 판매/구매 글 작성
- * input : 
- * output : 
- */
-app.post('/newproduct', function(req, res) {
-
-  const date = req.body.date;
-  const sellerid = req.body.sellerid;
-  const buyerid = req.body.buyerid;
-  const like = req.body.like;
-  const image_num = req.body.image_num;
-  const dealflag = req.body.dealflag;
-  const dealtype = req.body.dealtype;
-  const title = req.body.title
-  const category = req.body.category;
-  const price = req.body.price;
-  const detail = req.body.detail;
-  const dealmethod = req.body.dealmethod;
-  const image = req.body.image;
-
-    // const datas = [sellerid, buyerid, title, category, price, like, 
-    //     date, image, image_num, detail, dealmethod, dealtype, dealflag];
-  const datas = [sellerid, buyerid, title, category, price, like, 
-    date, detail, dealmethod, dealtype, dealflag];
-
-  console.log(datas);
-  
-  // db.query("INSERT INTO `PRODUCT` (`seller_id`, `buyer_id`, `product_title`, `product_category`, `product_price`,\
-  //  `product_like`, `product_date`, `product_img`, `product_img_num`, `product_detail`, `deal_method`, `deal_type`, `deal_flag`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
-  db.query("INSERT INTO `PRODUCT` (`seller_id`, `buyer_id`, `product_title`, `product_category`, `product_price`,\
-  `product_like`, `product_date`, `product_detail`, `deal_method`, `deal_type`, `deal_flag`) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-    datas, (err, result) => {
-      if(err){
-        console.log("newproduct error");
-        res.send({message: "실패"});
-      }
-      if(result){
-          //db.query("SELECT `product_id` FROM `PRODUCT` WHERE ")
-        console.log("newproduct succeed!");
-        res.send({message: "성공"});
-      }
-  });
-});
-
-const path = require("path");
-const multer = require("multer");
-
-app.use(express.static("public"));
-
-const storage = multer.diskStorage({
-  destination: "./public/images/report",
-  filename: function(req, file, cb) {
-    cb(null, "reportfile_" + Date.now() + path.extname(file.originalname));
-  }
-});
-
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1000000 }
-});
-
-app.post("/uploadreportimg", upload.single("img"), function(req, res, next) {
-  console.log(req.file.filename);
-  res.send({
-    fileName: req.file.filename
-  });
-});
-
-
