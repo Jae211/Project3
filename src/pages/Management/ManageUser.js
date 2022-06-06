@@ -1,70 +1,116 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import Header from "../../components/Header";
 import "../../style/Management.css"
 
 export default function ManageUser() {
-    const [User, SetUser] = useState([{
-        user_id: '',
-        user_nickname: '',
-        user_name: '',
-        user_reliable: '',
-    }]);
+  let Navigate = useNavigate();
 
-    useEffect(()=>{
-        Axios.get('http://localhost:8080/manager/user')
-        .then((res)=>{
-            console.log(res.data);
-            SetUser(res.data);
-        });
-    },[]);
+  const [User, SetUser] = useState([{
+    user_id: '',
+    user_nickname: '',
+    user_name: '',
+    user_reliable: '',
+  }]);
 
-    function ListItem(props){
-        return (
-            <tr className="ListRow">
-                <td className="UserId">{props.UserId}</td>
-                <td className="UserNickname">{props.Nickname}</td>
-                <td className="UserName">{props.UserName}</td>
-                <td className="UserReliable">{props.UserReliable}</td>
-                <td className="ChangeReliable">
-                    <input className="InputReliable"/>
-                    <button className="SubmitReliable">확인</button>
-                </td>
-                <td className="PermanentBan">
-                    <button className="BanButton">영정</button>
-                </td>
-            </tr>
-        );
+  useEffect(()=>{
+    Axios.get('http://localhost:8080/manager/user')
+    .then((res)=>{
+      console.log(res.data);
+      SetUser(res.data);
+    });
+  },[]);
+
+  function ListItem(props){
+    const [Reliable, SetReliable] = useState(0);
+
+    // 신뢰도 조정 클릭
+    const ReliableClick = ()=>{
+      if(Reliable >= 100 || Reliable < 0){
+        alert("적절하지 않은 신뢰도입니다. 다시 입력해주세요.");
+        Navigate('/manager/user');
+      }
+      else{
+        if(window.confirm(props.userid+"님의 신뢰도를 '"+Reliable+"'로 조정하시겠습니까?")===true){
+          Axios.post("http://localhost:8080/manager/user/reliable",{
+            user_id: props.userid,
+            user_reliable: Reliable,
+          }).then((res)=>{
+            console.log(res);
+            if(res.data === true)
+              window.location.reload();
+            else{
+              alert("신뢰도 조정 오류 발생");
+              Navigate('/manager/user');
+            }
+          });
+        }
+      }
     };
 
-    let UserList = [];
-    for(let i=User.length-1; i>=0; i--){
-        UserList.push(
-            <ListItem key={i} UserId={User[i].user_id} Nickname={User[i].user_nickname}
-            UserName={User[i].user_name} UserReliable={User[i].user_reliable}/>
-        );
-    }
+    // 영구정지 클릭
+    const BanClick = ()=>{
+      if(window.confirm(props.userid+"님을 영구 정지하시겠습니까?")===true){
+        Axios.post("http://localhost:8080/manager/user",{
+          user_id: props.userid,
+        }).then((res)=>{
+          console.log(res);
+          if(res.data === true)
+            window.location.reload();
+          else{
+            alert("영구 정지 오류 발생");
+            Navigate('/manager/user');
+          }
+        });
+      }
+    };
 
     return (
-        <div>
-            <Header />
-            <div className="ManageMain">
-                <table className="UserList">
-                    <thead className="UserHead">
-                        <tr>
-                            <td className="UserId">아이디</td>
-                            <td className="UserNickname">닉네임</td>
-                            <td className="UserName">이름</td>
-                            <td className="UserReliable">신뢰도</td>
-                            <td className="ChangeReliable">신뢰도 조정</td>
-                            <td className="PermanentBan">영구 정지</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {UserList}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+      <tr className="ListRow">
+        <td className="UserId">{props.userid}</td>
+        <td className="UserNickname">{props.nickname}</td>
+        <td className="UserName">{props.username}</td>
+        <td className="UserReliable">{props.reliable}</td>
+        <td className="ChangeReliable">
+          <input className="InputReliable" onChange={(e)=>SetReliable(e.target.value)}/>
+          <button className="SubmitReliable" onClick={ReliableClick}>확인</button>
+        </td>
+        <td className="PermanentBan">
+          <button className="BanButton" onClick={BanClick}>영정</button>
+        </td>
+      </tr>
     );
+  };
+
+  let UserList = [];
+  for(let i=User.length-1; i>=0; i--){
+    UserList.push(
+      <ListItem key={i} userid={User[i].user_id} nickname={User[i].user_nickname}
+      username={User[i].user_name} reliable={User[i].user_reliable}/>
+    );
+  }
+
+  return (
+    <div>
+      <Header />
+      <div className="ManageMain">
+        <table className="UserList">
+          <thead className="UserHead">
+            <tr>
+              <td className="UserId">아이디</td>
+              <td className="UserNickname">닉네임</td>
+              <td className="UserName">이름</td>
+              <td className="UserReliable">신뢰도</td>
+              <td className="ChangeReliable">신뢰도 조정</td>
+              <td className="PermanentBan">영구 정지</td>
+            </tr>
+          </thead>
+          <tbody>
+            {UserList}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }
