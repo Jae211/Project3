@@ -825,4 +825,30 @@ app.post("/uploadreportimg", upload.single("img"), function(req, res, next) {
   });
 });
 
+const storage2 = multer.diskStorage({
+  destination: "./public/images/products",
+  filename: function(req, file, cb) {
+    // const pid = req.body.pid;
+    // const index = req.body.index;
+    // cb(null, "product"+pid+"_"+index);
+    cb(null, "product" + Date.now() + path.extname(file.originalname));
+  }
+});
 
+const upload2 = multer({
+  storage: storage2,
+  // limits: { fileSize: 1000000 }
+});
+
+app.post("/uploadproductimg", upload2.single("img"), function(req, res, next) {
+  // const formData = req.body.formData;
+  // console.log(formData.file.filename);
+  // res.send({
+  //   fileName: formData.file.filename
+  // });
+  
+  console.log(req.file.filename);
+  res.send({
+    fileName: req.file.filename
+  });
+});

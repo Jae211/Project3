@@ -4,6 +4,7 @@ import Axios from 'axios';
 import Header from "../../components/Header";
 import ProductCategory from "../../components/ProductCategory";
 import '../../style/ProductUpload.css';
+import ImageUploading from 'react-images-uploading'
 
 function ProductUpload(){
 
@@ -32,8 +33,6 @@ function ProductUpload(){
   const goBack = () => {
     navigate(-1);
   }
-
-  
 
   const onSubmit = () => {
     let now = new Date();
@@ -114,10 +113,104 @@ function ProductUpload(){
     setCategory(e.target.value);
     //alert(e.target.value);
   }
+
+  /* Report랑 동일한 방법 사용했을 때 - index나 pid처럼 다른 요소 전달 시 filename 못읽음 */
+  //Cannot read properties of undefined (reading 'filename')
+  const onImgChange = (e) => {
+    setImage(e.target.files[0]);
+  }
+
+  const ImgSubmit = () => {
+    if(image){
+      const formData = new FormData();
+      formData.append("img", image);
+      Axios.post('http://localhost:8080/uploadproductimg', 
+      // { formData : formData,
+      //   pid : 1,
+      //   index : 0, }
+      formData
+      ).then(res => {
+          const { fileName } = res.data;
+          alert(fileName);
+        })
+      }
+  }
+
+  /* ImageUploading 태그 사용했을 때 - network error 500 발생함.. file 형태가 input으로 받아올때랑 다른건가 싶음 */
+  // const [images, setImages] = useState([]);
+  // const maxNumber = 4;
+
+  // const onChange = (imageList, addUpdateIndex) => {
+  //   // data for submit
+  //   console.log(imageList, addUpdateIndex);
+  //   setImages(imageList);
+  // };
+
+  // const onError = (errors, files) => {
+  //   if(errors.maxNumber) {
+  //     alert("이미지는 4개까지만 첨부할 수 있습니다");
+  //   }
+  // }
+
+  // const ImgSubmit = () => {
+  //   //이미지 제외하고, imagenumber에는 length만큼 뽑아와서 넣음..
+  //   //upload 완료하면 pid 가져와서 그거랑 이미지 index input으로 넣음..
+  //   //for(var i=0; i<images.length; i++){
+  //   if(images[0]){
+  //     const formData = new FormData();
+  //     formData.append("img", images[0]);
+  //     Axios.post('http://localhost:8080/uploadproductimg', formData)
+  //       .then(res => {
+  //         const { fileName } = res.data;
+  //         alert(fileName);
+  //       })
+  //     }
+  //   //}
+  // }
   
   return (
     <div className="main">
       <Header keyword="중고거래 글쓰기"/>
+      {/* <ImageUploading
+        multiple
+        value={images}
+        onChange={onChange}
+        maxNumber={maxNumber}
+        dataURLKey="data_url"
+        onError={onError}			// 추가
+        >
+        {({
+          imageList,
+          onImageUpload,
+          onImageRemoveAll,
+          onImageUpdate,
+          onImageRemove,
+          isDragging,
+          //dragProps,
+        }) => (
+          // write your building UI
+          <div className="upload__image-wrapper">
+            <button
+              style={isDragging ? { color: 'red' } : undefined}
+              onClick={onImageUpload}
+              //{...dragProps}
+            >
+            사진추가
+            </button>
+            &nbsp;
+            {imageList.map((image, index) => (
+              <div key={index} className="image-item">
+                <img src={image['data_url']} alt="" width="100" />
+                <div className="image-item__btn-wrapper">
+                  <button onClick={() => onImageUpdate(index)}>수정</button>
+                  <button onClick={() => onImageRemove(index)}>삭제</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </ImageUploading>
+      <button onClick={ImgSubmit}>submit</button> */}
       <div className="newproduct">
         <table className="submitnewproduct">
             <tbody>
@@ -135,10 +228,12 @@ function ProductUpload(){
               <th className="p_th">상품 이미지</th>
               <td>
                 <input className="p_td_image" type="file"
-                onChange={(e) => setImage(e.target.value)}/>
-                {/* onChange={onImgChange}/> */}
+                onChange={onImgChange}/>
+                <button onClick={ImgSubmit}>이미지 submit</button>
               </td>
+              
             </tr>
+            
             <tr className="p_row">
               <th className="p_th">상품 제목 <span className="p_must">*</span></th>
               <td>
