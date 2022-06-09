@@ -1,14 +1,40 @@
 const express = require("express");
 const cors = require("cors");
+const multer = require("multer");
+const path = require("path");
 const mysql = require("mysql");
 const app = express();
 const port = 8080;
+
+app.use(express.static("public"));
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb){  // 이미지 저장 위치
+      cb(null, "./public/images/");
+  },
+  filename: function(req, file, cb){  // 이미지 저장 이름
+      cb(null, `${file.originalname}`);
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1000000 }
+});
+
+app.post("/uploadreportimg", upload.single("img"), function(req, res, next) {
+  console.log(req.file.filename);
+  res.send({
+    fileName: req.file.filename
+  });
+});
 
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "1234",
   database: "lychee",
+  multipleStatements: true,
 });
 
 app.use(cors());
@@ -151,12 +177,12 @@ app.get("/notice", function (req, res) {
  * input: manager_id, notice_date, notice_title, notice_content, notice_img
  * output: true / false
  */
-app.post("/notice/write", function (req, res) {
+app.post("/notice/write", /*upload.single('file'),*/ function (req, res) {
   const ManagerId = req.body.manager_id;
   const NoticeDate = req.body.notice_date;
   const NoticeTitle = req.body.notice_title;
   const NoticeContent = req.body.notice_content;
-  const NoticeImg = req.body.notice_img;
+  const NoticeImg = req.body.notice_img;// req.body.file!==undefined?`/images/${req.file.filename}`:null;
   const Datas = [ManagerId, NoticeDate, NoticeTitle, NoticeContent, NoticeImg];
 
   const SQL =
@@ -171,6 +197,15 @@ app.post("/notice/write", function (req, res) {
       res.send(true);
     }
   });
+});
+
+/*
+ * 목적: 이미지 업로드
+ * input: file
+ * output: filename / false
+ */
+app.post("/upload/image", upload.single('img'), function(req, res){
+  console.log("이미지 업로드", req.file);
 });
 
 /*
@@ -264,6 +299,7 @@ app.get("/notice/search/:word", function (req, res) {
   });
 });
 
+
 /*
  * 목적: 내 신고 내역 불러오기
  * input: id
@@ -335,7 +371,7 @@ app.post("/report/answer", function (req, res) {
 /*
  * 목적: 신고 삭제
  * input: report_id
- * output: 해당 id로 신고한 정보 / false
+ * output: true / false
  */
 app.post("/report/delete", function (req, res) {
   const ReportId = req.body.report_id;
@@ -846,3 +882,408 @@ app.post("/mypage/:type", function (req, res) {
     }
   })
 });
+
+/*
+ * 목적 : 신고 글 작성
+ * input : 필요한 정보 모두
+ * output : 실패 / 성공
+ */
+app.post('/reportwrite', function(req, res) {
+    const reporterid = req.body.reporterid;
+    const reportedid = req.body.reportedid;
+    const type = req.body.type;
+    const date = req.body.date;
+    const title = req.body.title;
+    const detail = req.body.detail;
+
+    const attach = req.body.fileName;
+    const cid = req.body.cid;
+    const pid = req.body.pid;
+
+    const datas = [reporterid, reportedid, date, title, type, detail, attach, cid, pid];
+
+    console.log(datas);
+    
+    db.query("INSERT INTO `REPORT` (`reporter_id`, `reported_id`, `report_date`, `report_title`, `report_type`,\
+     `report_detail`, `report_file`, `chatroom_id`, `product_id`) VALUES (?,?,?,?,?,?,?,?,?);",
+
+    datas, (err, result) => {
+        if(err){
+            console.log("writereport error");
+            res.send({message: "실패"});
+        }
+        if(result){
+            console.log("writereport succeed!");
+            res.send({message: "성공"});
+        }
+    });
+});
+
+
+/*
+ * 목적 : 제품 판매/구매 글 작성
+ * input : 
+ * output : 
+ */
+app.post('/newproduct', function(req, res) {
+
+  const date = req.body.date;
+  const sellerid = req.body.sellerid;
+  const buyerid = req.body.buyerid;
+  const like = req.body.like;
+  const image_num = req.body.image_num;
+  const dealflag = req.body.dealflag;
+  const dealtype = req.body.dealtype;
+  const title = req.body.title
+  const category = req.body.category;
+  const price = req.body.price;
+  const detail = req.body.detail;
+  const dealmethod = req.body.dealmethod;
+  const image = req.body.image;
+
+    // const datas = [sellerid, buyerid, title, category, price, like, 
+    //     date, image, image_num, detail, dealmethod, dealtype, dealflag];
+  const datas = [sellerid, buyerid, title, category, price, like, 
+    date, detail, dealmethod, dealtype, dealflag];
+
+  console.log(datas);
+  
+  // db.query("INSERT INTO `PRODUCT` (`seller_id`, `buyer_id`, `product_title`, `product_category`, `product_price`,\
+  //  `product_like`, `product_date`, `product_img`, `product_img_num`, `product_detail`, `deal_method`, `deal_type`, `deal_flag`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+  db.query("INSERT INTO `PRODUCT` (`seller_id`, `buyer_id`, `product_title`, `product_category`, `product_price`,\
+  `product_like`, `product_date`, `product_detail`, `deal_method`, `deal_type`, `deal_flag`) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+    datas, (err, result) => {
+      if(err){
+        console.log("newproduct error");
+        res.send({message: "실패"});
+      }
+      if(result){
+          //db.query("SELECT `product_id` FROM `PRODUCT` WHERE ")
+        console.log("newproduct succeed!");
+        res.send({message: "성공"});
+      }
+  });
+});
+
+/*
+ * 목적: 마이페이지 포인트내역 불러오기
+ * input: login_id
+ * output: 마이페이지 포인트 내역 / none
+ */
+app.post("/point", function (req, res) {
+  const Id = req.body.Id;
+  const SQL =
+    "SELECT P.deal_date, P.deal_amount, P.receiver_id, U.user_nickname AS receiver_nickname, P.sender_id, S.user_nickname AS sender_nickname, P.product_id, D.product_title \
+  FROM ((`POINT` AS P LEFT OUTER JOIN `PRODUCT` D ON P.product_id = D.product_id) \
+  INNER JOIN `USER` AS U ON P.receiver_id = U.user_id)\
+  INNER JOIN `USER` AS S On P.sender_id = S.user_id\
+  WHERE P.receiver_id = ? OR P.sender_id = ?\
+  ORDER BY deal_date DESC;";
+
+  db.query(SQL, [Id, Id], function (err, rows) {
+    if (err) {
+      console.log("마이페이지 포인트 내역 불러오기 실패", err);
+    } else {
+      console.log("마이페이지 포인트 내역 불러오기 성공");
+      res.send(rows);
+    }
+  });
+});
+
+/*
+ * 목적: 마이페이지 포인트 충전하기
+ * input: user_id, user_password, point_amount
+ * output: true / false
+ */
+app.post("/pointcharge", function (req, res) {
+  const Id = req.body.PointId;
+  const Pw = req.body.PointPw;
+  const PointAmount = req.body.PointAmount;
+  const Date = req.body.Date;
+
+  const PwCheckSQL = "SELECT * FROM `USER` WHERE user_id=? AND user_pwd=?;";
+  const InsertSQL = "INSERT INTO `POINT` VALUES (0, ?, ?, ?, ?, null);";
+  const UpdateSQL =
+    "UPDATE `USER` SET user_point=user_point+? WHERE user_id=?;";
+
+  db.query(PwCheckSQL, [Id, Pw], function (err, rows) {
+    if (err) {
+      console.log("포인트 충전 아이디, 패스워드 일치 에러");
+      res.send(false);
+    } else {
+      if (rows.length > 0){
+        db.query(
+          InsertSQL + UpdateSQL,
+          [Date, PointAmount, Id, Id, PointAmount, Id],
+          function (err2, result) {
+            if (err2) {
+              console.log("포인트 충전 insert 실패");
+              res.send(false);
+            } else {
+              console.log("포인트 충전 insert 성공");
+              res.send(true);
+            }
+          }
+        );
+      } else {
+        console.log("아이디, 패스워드 불일치");
+        res.send(false);
+      }
+    }
+  });
+});
+
+/*
+ * 목적: 쪽지함 포인트 송금하기
+ * input: sender_id, sender_pw, receiver_id, point_amount, date
+ * output: true / 에러메세지
+ */
+app.post("/pointsend", function (req, res) {
+  const SenderId = req.body.SenderId;
+  const SenderPw = req.body.SenderPw;
+  const ReceiverId = req.body.ReceiverId;
+  const PointAmount = req.body.PointAmount;
+  const Date = req.body.Date;
+  const ProductId = req.body.ProductId;
+
+  console.log(SenderId, SenderPw, ReceiverId, PointAmount, Date, ProductId);
+  const PwCheckSQL = "SELECT * FROM `USER` WHERE user_id=? AND user_pwd=?;";
+  const PointCheckSQL =
+    "SELECT * FROM `USER` WHERE User_id=? AND user_point>=?";
+  const UpdateSQL =
+    "UPDATE `USER` SET user_point=user_point+? WHERE user_id=?;\
+  UPDATE `USER` SET user_point=user_point-? WHERE user_id=?;";
+  const InsertSQL = "INSERT INTO `POINT` VALUES (0, ?, ?, ?, ?, ?);";
+
+  db.query(PwCheckSQL, [SenderId, SenderPw], function (err, rows) {
+    if (err) {
+      console.log("포인트 송금 아이디 체크 에러");
+      res.send(err);
+    } else {
+      if (rows.length > 0) {
+        db.query(
+          PointCheckSQL,
+          [SenderId, PointAmount],
+          function (err2, rows2) {
+            if (err2) {
+              console.log("포인트 송금 잔여 포인트 체크 에러");
+              res.send(err2);
+            } else {
+              if (rows2.length > 0) {
+                db.query(
+                  UpdateSQL + InsertSQL,
+                  [
+                    PointAmount,
+                    ReceiverId,
+                    PointAmount,
+                    SenderId,
+                    Date,
+                    PointAmount,
+                    ReceiverId,
+                    SenderId,
+                    ProductId,
+                  ],
+                  function (err3, row3) {
+                    if (err3) {
+                      console.log("포인트 업데이트 에러");
+                      res.send(err3);
+                    } else {
+                      console.log("포인트 업데이트 성공");
+                      res.send(true);
+                    }
+                  }
+                );
+              } else {
+                res.send(
+                  "잔여 포인트가 충분하지 않습니다. 포인트 충전 후 다시 이용해주세요."
+                );
+              }
+            }
+          }
+        );
+      } else {
+        res.send("아이디와 패스워드가 일치하지 않습니다.");
+      }
+    }
+  });
+});
+
+/*
+ * 목적 : 문의 글 작성
+ * input : 필요한 정보 모두
+ * output : 실패 / 성공
+ */
+app.post('/qnawrite', function(req, res) {
+  const id = req.body.id;
+  const title = req.body.title;
+  const category = req.body.category;
+  const pflag = req.body.pflag;
+  const content = req.body.content;
+  const date = req.body.date;
+  const view = req.body.view;
+
+  const datas = [id, date, category, title, content, view, pflag];
+  console.log(datas);
+  
+  db.query("INSERT INTO `QNA` (`q_id`, `q_date`, `q_category`, `q_title`,\
+  `q_content`, `view`, `private_flag`) VALUES (?,?,?,?,?,?,?);",
+
+  datas, (err, result) => {
+      if(err){
+          console.log("writeqna error");
+          res.send(false);
+      }
+      if(result){
+          console.log("writeqna succeed!");
+          db.query("SELECT `qna_id` FROM `QNA` WHERE `q_id`=? AND `q_date`=? AND `q_category`=? AND\
+          `q_title`=? AND `q_content`=? AND `view`=? AND `private_flag`=?",
+          datas, (err, result) => {
+            if(err){
+              console.log("writeqna_get qna id error");
+              return;
+            }
+            if(result){
+              console.log("writeqna_get qna id error");
+              res.send({id: result[0].qna_id});
+            }
+          })
+          //res.send();
+      }
+  });
+});
+
+/*
+ * 목적: qna 목록
+ * input:
+ * output: 전체 문의사항 정보 / false
+ */
+app.get("/qna", function (req, res) {
+  const SQL =
+    "SELECT `qna_id`,`q_id`,`q_date`,`q_category`,`q_title`,`a_id`,`view`,`private_flag` FROM `QNA`";
+  db.query(SQL, function (err, result) {
+    if(err) {
+      console.log("get qna error", err);
+      res.send(false);
+    }
+    if(result) {
+      console.log("get qna result ", result);
+      res.send(result);
+    }
+  });
+});
+
+/*
+ * 목적: qna 세부정보
+ * input: qna_id
+ * output: 해당 문의사항 전체 정보 / false
+ */
+app.get("/qna/read/:qna_id", function (req, res) {
+  const QnaId = req.params.qna_id;
+
+  const SQL = "SELECT * FROM `QNA` WHERE `qna_id`=?";
+  db.query(SQL, QnaId, function (err, result) {
+    if (err) {
+      console.log("qna read error", err);
+      res.send(false);
+    }
+    if (result) {
+      console.log("qna read result", result);
+      res.send(result);
+    }
+  });
+});
+
+
+/*
+ * 목적: qna 삭제
+ * input: 문의사항 글 id
+ * output: true / false
+ */
+app.post("/qna/delete", function (req, res) {
+  const qid = req.body.qid;
+
+  const SQL = "DELETE FROM `QNA` WHERE `qna_id`=?";
+  db.query(SQL, qid, function (err, result) {
+    if (err) {
+      console.log("qna delete error", result);
+      res.send(false);
+    }
+    if (result) {
+      console.log("qna delete result", result);
+      res.send(true);
+    }
+  });
+});
+
+/*
+ * 목적: qna 답변
+ * input: 
+ * output: true / false
+ */
+app.post("/qna/answer/:qna_id", function (req, res) {
+  const qid = req.params.qna_id;
+  const aid = req.body.aid;
+  const adate = req.body.adate;
+  const acontent = req.body.acontent;
+  const datas = [aid, adate, acontent, qid];
+
+  const SQL = "UPDATE `QNA` SET `a_id`=?, `a_date`=?, `a_content`=? WHERE `qna_id`=?";
+  db.query(SQL, datas, function (err, result) {
+    if (err) {
+      console.log("qna answer error", err);
+      res.send(false);
+    }
+    if (result) {
+      console.log("qna answer result", result);
+      res.send(true);
+    }
+  });
+});
+
+
+/*
+ * 목적: 공지사항 검색
+ * input: 검색 단어
+ * output: 해당 단어를 제목에 포함하는 공지사항 / false
+ */
+app.get("/qna/search/:word", function (req, res) {
+  const SearchWord = req.params.word;
+
+  const SQL =
+    "SELECT `qna_id`,`q_id`,`q_date`,`q_category`,`q_title`,`a_id`,`view`,`private_flag`\
+     FROM `QNA` WHERE `q_title` LIKE ?";
+  db.query(SQL, "%" + SearchWord + "%", function (err, rows) {
+    if (err) {
+      console.log("qna search error", err);
+      res.send(false);
+    }
+    if (rows) {
+      console.log("qna search result", rows);
+      res.send(rows);
+    }
+  });
+});
+
+// const path = require("path");
+// const multer = require("multer");
+
+// app.use(express.static("public"));
+
+// const storage = multer.diskStorage({
+//   destination: "./public/images/report",
+//   filename: function(req, file, cb) {
+//     cb(null, "reportfile_" + Date.now() + path.extname(file.originalname));
+//   }
+// });
+
+// const upload = multer({
+//   storage: storage,
+//   limits: { fileSize: 1000000 }
+// });
+
+// app.post("/uploadreportimg", upload.single("img"), function(req, res, next) {
+//   console.log(req.file.filename);
+//   res.send({
+//     fileName: req.file.filename
+//   });
+// });

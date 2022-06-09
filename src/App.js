@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './style/Global.css';
 import './style/Notice.css';
-import'./App.css';
 import Message from './pages/Message/MessagePage';
 import Notice from './pages/Notice/NoticePage';
 import NoticeRead from './pages/Notice/NoticeRead';
@@ -24,6 +23,10 @@ import ReportWrite from './pages/ReportWrite/ReportWrite'
 import ReportBoard from './pages/Report/ReportBoard';
 import ReportDetail from './pages/Report/ReportDetail';
 import MyPage from "./pages/MyPage/MyPage";
+import QnAWrite from './pages/QnA/QnAWrite';
+import QnA from './pages/QnA/QnA';
+import QnARead from './pages/QnA/QnARead'
+import QnASearch from './pages/QnA/QnASearch';
 
 function App() {
   return (
@@ -50,6 +53,10 @@ function App() {
         <Route path="/report" element={<ReportBoard/>}/>
         <Route path="/report/write" element={<ReportWrite/>}/>
         <Route path="/report/detail/*" element={<ReportDetail/>}/>
+        <Route path="/qna/write" element={<QnAWrite/>}/>
+        <Route path="/qna" element={<QnA/>}/>
+        <Route path="/qna/read/*" element={<QnARead/>}/>
+        <Route path="/qna/search/*" element={<QnASearch/>}/>
       </Routes>
     </BrowserRouter>
   );
