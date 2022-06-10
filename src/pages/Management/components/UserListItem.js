@@ -9,7 +9,7 @@ export default function UserListItem(props){
 
     // 신뢰도 조정 클릭
     const ReliableClick = ()=>{
-      if(Reliable >= 100 || Reliable < 0){
+      if(Reliable > 100 || Reliable < 0){
         alert("적절하지 않은 신뢰도입니다. 다시 입력해주세요.");
         Navigate('/manager/user');
       }
