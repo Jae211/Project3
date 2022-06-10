@@ -8,17 +8,33 @@ const port = 8080;
 
 app.use(express.static("public"));
 
-const storage = multer.diskStorage({
+// 신고 이미지 저장 방식
+const ReportStorage = multer.diskStorage({
+  destination: "./public/images/report",
+  filename: function(req, file, cb) {
+    cb(null, "reportfile_" + Date.now() + path.extname(file.originalname));
+  }
+});
+
+// 신고 이미지 업로드
+const upload = multer({
+  storage: ReportStorage,
+  limits: { fileSize: 1000000 }
+});
+
+// 공지 이미지 저장 방식
+const NoticeStorage = multer.diskStorage({
   destination: function(req, file, cb){  // 이미지 저장 위치
-      cb(null, "./public/images/");
+      cb(null, "./public/images/notice/");
   },
   filename: function(req, file, cb){  // 이미지 저장 이름
       cb(null, `${file.originalname}`);
   }
 });
 
-const upload = multer({
-  storage: storage,
+// 공지 이미지 업로드
+const NoticeUpload = multer({
+  storage: NoticeStorage,
   limits: { fileSize: 1000000 }
 });
 
@@ -200,11 +216,11 @@ app.post("/notice/write", /*upload.single('file'),*/ function (req, res) {
 });
 
 /*
- * 목적: 이미지 업로드
+ * 목적: 공지사항 이미지 업로드
  * input: file
  * output: filename / false
  */
-app.post("/upload/image", upload.single('img'), function(req, res){
+app.post("/upload/image", NoticeUpload.single('img'), function(req, res){
   console.log("이미지 업로드", req.file);
 });
 
@@ -342,6 +358,39 @@ app.get("/report/detail/:report_id", function (req, res) {
     }
   });
 });
+
+/*
+ * 목적: 신고된 게시물의 유형 가져오기
+ * input: product_id
+ * output: sell / buy
+ */
+app.post("/product/type", function (req, res) {
+  const ProductId = req.body.product_id;
+  console.log("productid:",ProductId)
+;
+  const SQL = "SELECT `deal_type` FROM `PRODUCT` WHERE `product_id` = ?";
+  db.query(SQL, ProductId, function (err, row) {
+    if (err) {
+      console.log("신고된 게시물 유형 불러오기 오류", err);
+      res.send(false);
+    }
+    else if (row === undefined) {
+      console.log("신고된 게시물 존재하지 않음", row);
+      res.send("deleted");
+    }
+    else{
+      if (row[0].deal_type === 0) {
+        console.log("신고된 게시물 유형 불러오기 결과: 판매");
+        res.send("sell");
+      }
+      else if (row[0].deal_type === 1) {
+        console.log("신고된 게시물 유형 불러오기 결과: 구매");
+        res.send("buy");
+      }
+    }
+  });
+});
+
 
 /*
  * 목적: 신고 답변 저장
