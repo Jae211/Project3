@@ -8,9 +8,9 @@ export default function NoticeListComponent(props){
     };
 
     return (
-        <tr className="n_list_row" onClick={ToNoticeRead}>
+        <tr className="n_list_row">
             <td className="noticeIndex">{props.notice_id}</td>
-            <td className="noticeTitle">{props.notice_title}</td>
+            <td className="noticeTitleToRead"  onClick={ToNoticeRead}>{props.notice_title}</td>
             <td className="noticeDate">{props.notice_date}</td>
             <td className="managerId">{props.manager_id}</td>
         </tr>

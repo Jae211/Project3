@@ -30,9 +30,6 @@
   height: 60px;
   border-bottom: 1px solid #000;
 }
-.ReportListRow a{
-  text-decoration: none;
-}
 .ReportList .ReportIndex{
   width:100px;
 }
@@ -41,10 +38,10 @@
 }
 .ReportList .ReportTitle{
   width:600px;
-  height: 60px;
-  text-align: center;
-  vertical-align: middle;
-  color: black;
+}
+.ReportList .ReportTitleToDetail{
+  width:600px;
+  cursor: pointer;
 }
 .ReportList .ReportDate{
   width:200px;
