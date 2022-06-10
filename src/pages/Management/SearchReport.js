@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import moment from "moment";
 import Axios from "axios";
 import Header from "../../components/Header";
 import ReportListItem from "./components/ReportListItem";
 import "../../style/Management.css"
 
-export default function ManageReport() {
+export default function SearchReport() {
+  let location = useLocation();
+
   // 신고 정보
   const [Report, SetReport] = useState([{
     report_id: '',
@@ -18,27 +20,32 @@ export default function ManageReport() {
   }]);    
 
   // 검색 단어
+  const [Word, SetWord] = useState('');
   const [SearchWord, SetSearchWord] = useState('');
+  useEffect(()=>{
+    const TempWord = location.state.searchword;
+    SetSearchWord(TempWord);
+  },[location]);
 
   useEffect(()=>{
-      Axios.get('http://localhost:8080/manager/report')
-      .then((res)=>{
-          console.log(res.data);
-          SetReport(res.data);
-      });
-  },[]);
+    Axios.get('http://localhost:8080/manager/report/'+SearchWord)
+    .then((res)=>{
+      console.log(res.data);
+      SetReport(res.data);
+    });
+  },[SearchWord]);
 
   let ReportList = [];
   if(Report.length === 0) {
-    ReportList.push(<tr key={0} className="ListRow"><td colSpan={6}>신고 내역이 존재하지 않습니다.</td></tr>);
+    ReportList.push(<tr key={0} className="ListRow"><td colSpan={6}>"{SearchWord}"에 대한 검색결과가 없습니다.</td></tr>);
   }
   for(let i=Report.length-1; i>=0; i--){
     let IsSolved = 'Incomplete';
     if(Report[i].solve_id !== null)
-        IsSolved ='Complete';
+      IsSolved ='Complete';
     ReportList.push(
-        <ReportListItem key={i} reportid={Report[i].report_id} type={Report[i].report_type} title={Report[i].report_title}
-        reporterid={Report[i].reporter_id} date={moment(Report[i].report_date).format("YYYY-MM-DD")} issolved={IsSolved}/>
+      <ReportListItem key={i} reportid={Report[i].report_id} type={Report[i].report_type} title={Report[i].report_title}
+      reporterid={Report[i].reporter_id} date={moment(Report[i].report_date).format("YYYY-MM-DD")} issolved={IsSolved}/>
     );
   }
   
@@ -46,6 +53,7 @@ export default function ManageReport() {
     <div>
       <Header keyword="신고 관리"/>
       <div className="ManageMain">
+        <div className="SearchResult"><span>{SearchWord}</span>에 대한 검색결과입니다.</div>
         <table className="ReportList">
           <thead className="ReportHead">
             <tr className="ListRow">
@@ -63,9 +71,14 @@ export default function ManageReport() {
         </table>
         <div className="ManageBottom">
           <div className="ManageSearch">
-            <input type="text" onChange={e=>SetSearchWord(e.target.value)}></input>
-            <Link to={{pathname: '/manager/report/'+SearchWord}} state={{searchword: SearchWord}}>
-              <button type="button">검색</button>
+            <input type="text" onChange={(e)=>SetWord(e.target.value)}></input>
+            <Link to={{pathname: '/manager/report/'+Word}} state={{searchword: Word}}>
+              <button type="button" onClick={()=>{SetSearchWord(Word)}}>검색</button>
+            </Link>
+          </div>
+          <div>
+            <Link to="/manager/report">
+              <button className="AllList" type="button">전체 목록</button>
             </Link>
           </div>
         </div>

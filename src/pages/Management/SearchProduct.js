@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import Axios from "axios";
 import Header from "../../components/Header";
 import ProductListItem from "./components/ProductListItem";
 import "../../style/Management.css"
 
-export default function ManageProduct() {
+export default function SearchProduct() {
+  let location = useLocation();
+
   // 상품 정보
   const [Product, SetProduct] = useState([{
       product_id: '',
@@ -18,20 +20,25 @@ export default function ManageProduct() {
   }]);
 
   // 검색 단어
+  const [Word, SetWord] = useState('');
   const [SearchWord, SetSearchWord] = useState('');
+  useEffect(()=>{
+    const TempWord = location.state.searchword;
+    SetSearchWord(TempWord);
+  },[location]);
 
   useEffect(()=>{
-    Axios.get('http://localhost:8080/manager/product')
+    Axios.get('http://localhost:8080/manager/product/'+SearchWord)
     .then((res)=>{
       console.log(res.data);
       SetProduct(res.data);
     });
-  },[]);
+  },[SearchWord]);
 
   let ReportedList = [];
   let ProductList = [];
   if(Product.length === 0){
-    ProductList.push(<tr key={0} className="ListRow"><td colSpan={6}>게시글이 존재하지 않습니다.</td></tr>);
+    ProductList.push(<tr key={0} className="ListRow"><td colSpan={6}>"{SearchWord}"에 대한 검색결과가 없습니다.</td></tr>);
   }
   for(let i=Product.length-1; i>=0; i--){
     if(Product[i].report_id !== null){
@@ -50,6 +57,7 @@ export default function ManageProduct() {
     <div>
       <Header keyword="게시글 관리"/>
       <div className="ManageMain">
+        <div className="SearchResult"><span>{SearchWord}</span>에 대한 검색결과입니다.</div>
         <table className="ReportedProduct" hidden={ReportedList.length === 0}>
           <caption>신고 접수된 게시글</caption>
           <thead className="ProductHead">
@@ -83,10 +91,15 @@ export default function ManageProduct() {
             </tbody>
         </table>
         <div className="ManageBottom">
-          <div className="ManageSearch">
-            <input type="text" onChange={e=>SetSearchWord(e.target.value)}></input>
-            <Link to={{pathname: '/manager/product/'+SearchWord}} state={{searchword: SearchWord}}>
-              <button type="button">검색</button>
+        <div className="ManageSearch">
+            <input type="text" onChange={(e)=>SetWord(e.target.value)}></input>
+            <Link to={{pathname: '/manager/product/'+Word}} state={{searchword: Word}}>
+              <button type="button" onClick={()=>{SetSearchWord(Word)}}>검색</button>
+            </Link>
+          </div>
+          <div>
+            <Link to="/manager/product">
+              <button className="AllList" type="button">전체 목록</button>
             </Link>
           </div>
         </div>

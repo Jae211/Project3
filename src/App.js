@@ -24,8 +24,11 @@ import ReportBoard from './pages/Report/ReportBoard';
 import ReportDetail from './pages/Report/ReportDetail';
 import MyPage from "./pages/MyPage/MyPage";
 import ManageProduct from './pages/Management/ManageProduct';
+import SearchProduct from './pages/Management/SearchProduct';
 import ManageReport from './pages/Management/ManageReport';
+import SearchReport from './pages/Management/SearchReport';
 import ManageUser from './pages/Management/ManageUser';
+import SearchUser from './pages/Management/SearchUser';
 import QnAWrite from './pages/QnA/QnAWrite';
 import QnA from './pages/QnA/QnA';
 import QnARead from './pages/QnA/QnARead'
@@ -57,8 +60,11 @@ function App() {
         <Route path="/report/write" element={<ReportWrite/>}/>
         <Route path="/report/detail/*" element={<ReportDetail/>}/>
         <Route path="/manager/product" element={<ManageProduct/>}/>
+        <Route path="/manager/product/*" element={<SearchProduct/>}/>
         <Route path="/manager/report" element={<ManageReport/>}/>
+        <Route path="/manager/report/*" element={<SearchReport/>}/>
         <Route path="/manager/user" element={<ManageUser/>}/>
+        <Route path="/manager/user/*" element={<SearchUser/>}/>
         <Route path="/qna/write" element={<QnAWrite/>}/>
         <Route path="/qna" element={<QnA/>}/>
         <Route path="/qna/read/*" element={<QnARead/>}/>
