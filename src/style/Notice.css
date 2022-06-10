@@ -16,6 +16,7 @@
     border-collapse: collapse;
     text-align: center;
 }
+
 .noticeHead{
     border-bottom: 2px solid #000;
     font-size: 20px;
@@ -24,11 +25,18 @@
     height: 60px;
     border-bottom: 1px solid #000;
 }
+.n_list_row a{
+  text-decoration: none;
+}
 .noticeIndex{
     width:100px;
 }
 .noticeTitle{
-    width:500px;
+  width:700px;
+  height: 60px;
+  text-align: center;
+  vertical-align: middle;
+  color: black;
 }
 .noticeTitleToRead{
     width:500px;
@@ -72,6 +80,7 @@
     background-color: #ffffff;
     color: #888888;
     font-weight: bold;
+    cursor: pointer;
 }
 .allNotice{
     margin: 8px;
@@ -81,6 +90,7 @@
     background-color: #FFFFFF;
     color: #888888;
     font-weight: bold;
+    cursor: pointer;
 }
 .writeNotice{
     margin: 8px;
@@ -90,6 +100,7 @@
     background-color: #FFFFFF;
     color: #ff3d60;
     font-weight: bold;
+    cursor: pointer;
 }
 
 /* noticeRead, noticeWrite */
@@ -127,15 +138,14 @@
 .n_td_image{
     margin-top: 8px;
     margin-bottom: 8px;
-    width: 984px;
-    /* min-height: 40px; */
+    max-width: 984px;
 }
 .noticeMain .buttons{
     width: 1200px;
     text-align: right;
     margin-right: 48px;
 }
-.noticeMain .buttons .list{
+.noticeMain .buttons .list, .noticeMain .buttons .delete{
     width: 120px;
     height: 32px;
     border: 2px solid #888888;
@@ -143,6 +153,7 @@
     color: #888888;
     font-weight: bold;
     margin: 8px;
+    cursor: pointer;
 }
 .noticeMain .buttons .update, .noticeMain .buttons .submit{
     width: 120px;
@@ -152,13 +163,5 @@
     color: #ff3d60;
     font-weight: bold;
     margin: 8px;
-}
-.noticeMain .buttons .delete{
-    width: 120px;
-    height: 32px;
-    border: 2px solid #888888;
-    background-color: #FFFFFF;
-    color: #888888;
-    font-weight: bold;
-    margin: 8px;
+    cursor: pointer;
 }

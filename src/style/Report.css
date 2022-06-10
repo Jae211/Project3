@@ -30,6 +30,9 @@
   height: 60px;
   border-bottom: 1px solid #000;
 }
+.ReportListRow a{
+  text-decoration: none;
+}
 .ReportList .ReportIndex{
   width:100px;
 }
