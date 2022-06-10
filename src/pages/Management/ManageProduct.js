@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import Header from "../../components/Header";
+import * as Common from "../../components/CommonFunc";
 import "../../style/Management.css"
 
 export default function ManageProduct() {
@@ -35,7 +36,7 @@ export default function ManageProduct() {
           if(res.data === true)
             window.location.reload();
           else{
-            alert("영구 정지 오류 발생");
+            alert("해당 상품을 삭제하는데 오류가 발생하였습니다.");
             Navigate('/manager/product');
           }
         });
@@ -53,13 +54,13 @@ export default function ManageProduct() {
     }
 
     return (
-      <tr className="ListRow" onClick={ToProduct}>
+      <tr className="ListRow">
         <td className="ProductIndex">{props.ProductId}</td>
         <td className="ProductWriter">{props.WriterId}</td>
         <td className="ProductCategory">{props.Category}</td>
-        <td className="ProductTitle">{props.Title}</td>
-        <td className="ProductPrice">{props.Price}</td>
-        <td className="DeleteProduct" onClick={e => e.stopPropagation()}>
+        <td className="ProductTitleToProduct" onClick={ToProduct}>{props.Title}</td>
+        <td className="ProductPrice">{Common.MoneyComma(props.Price)}</td>
+        <td className="DeleteProduct">
           <button className="DeleteBtn" onClick={DeleteClick}>삭제</button>
         </td>
       </tr>
@@ -84,12 +85,12 @@ export default function ManageProduct() {
 
   return (
     <div>
-      <Header />
+      <Header keyword="게시글 관리"/>
       <div className="ManageMain">
         <table className="ReportedProduct">
           <caption>신고 접수된 게시글</caption>
           <thead className="ProductHead">
-            <tr>
+            <tr className="ListRow">
               <td className="ProductIndex">글 번호</td>
               <td className="ProductWriter">글 작성자</td>
               <td className="ProductCategory">카테고리</td>
@@ -105,7 +106,7 @@ export default function ManageProduct() {
         <table className="ProductList">
             <caption>전체 게시글</caption>
             <thead className="ProductHead">
-              <tr>
+              <tr className="ListRow">
                 <td className="ProductIndex">글 번호</td>
                 <td className="ProductWriter">글 작성자</td>
                 <td className="ProductCategory">카테고리</td>

@@ -7,6 +7,41 @@
     height: 60px;
     border-bottom: 1px solid #000;
 }
+.ManageBottom{
+    display: flex;
+    width: 1200px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.ManageSearch{
+    margin: 8px;
+}
+.ManageSearch input{
+    margin-right: 8px;
+    height: 28px;
+    outline: none;
+}
+.ManageSearch button{
+    width: 80px;
+    height: 34px;
+    border: 2px solid #888888;
+    background-color: #ffffff;
+    font-size: 16px;
+    color: #888888;
+    font-weight: bold;
+    cursor: pointer;
+}
+.AllList{
+    margin: 8px;
+    width: 120px;
+    height: 34px;
+    border: 2px solid #888888;
+    background-color: #FFFFFF;
+    font-size: 16px;
+    color: #888888;
+    font-weight: bold;
+    cursor: pointer;
+}
 
 /* ManagerProduct */
 .ReportedProduct, .ProductList{
@@ -16,12 +51,13 @@
     margin-bottom: 16px;
     border-collapse: collapse;
     text-align: center;
+    cursor: default;
 }
 .ReportedProduct caption, .ProductList caption{
     width: 1200px;
     margin: 8px;
     text-align: left;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
 }
 .ProductHead{
@@ -42,6 +78,10 @@
 .ProductTitle{
     width: 400px;
 }
+.ProductTitleToProduct{
+    width: 400px;
+    cursor: pointer;
+}
 .ProductPrice{
     width: 200px;
 }
@@ -55,6 +95,7 @@
     color: #ffffff;
     background-color: #ff3d60;
     border: solid 1px #ff3d60;
+    cursor: pointer;
 }
 
 /* ManageUser */
@@ -65,6 +106,7 @@
     margin-bottom: 16px;
     border-collapse: collapse;
     text-align: center;
+    cursor: default;
 }
 .UserHead{
     border-bottom: 2px solid #000;
@@ -99,8 +141,10 @@
     height: 34px;
     font-size: 16px;
     color: #ff3d60;
+    font-weight: bold;
     background-color: #ffffff;
     border: solid 1px #ff3d60;
+    cursor: pointer;
 }
 .BanButton{
     width: 52px;
@@ -109,6 +153,7 @@
     color: #ffffff;
     background-color: #ff3d60;
     border: solid 1px #ff3d60;
+    cursor: pointer;
 }
 
 /* ManageReport */
@@ -119,6 +164,7 @@
     margin-bottom: 16px;
     border-collapse: collapse;
     text-align: center;
+    cursor: default;
 }
 .ReportHead{
     border-bottom: 2px solid #000;
@@ -132,6 +178,10 @@
 }
 .ReportTitle{
     width: 400px;
+}
+.ReportTitleToDetail{
+    width: 400px;
+    cursor: pointer;
 }
 .ReporterId{
     width: 200px;

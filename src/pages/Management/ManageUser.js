@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Axios from "axios";
 import Header from "../../components/Header";
 import "../../style/Management.css"
@@ -13,6 +13,7 @@ export default function ManageUser() {
     user_name: '',
     user_reliable: '',
   }]);
+  const [SearchWord, SetSearchWord] = useState('');
 
   useEffect(()=>{
     Axios.get('http://localhost:8080/manager/user')
@@ -32,7 +33,7 @@ export default function ManageUser() {
         Navigate('/manager/user');
       }
       else{
-        if(window.confirm(props.userid+"님의 신뢰도를 '"+Reliable+"'로 조정하시겠습니까?")===true){
+        if(window.confirm(props.userid+"님의 신뢰도를 '"+Reliable+"'(으)로 조정하시겠습니까?")===true){
           Axios.post("http://localhost:8080/manager/user/reliable",{
             user_id: props.userid,
             user_reliable: Reliable,
@@ -41,7 +42,7 @@ export default function ManageUser() {
             if(res.data === true)
               window.location.reload();
             else{
-              alert("신뢰도 조정 오류 발생");
+              alert("신뢰도 조정에 오류가 발생하였습니다.");
               Navigate('/manager/user');
             }
           });
@@ -59,7 +60,7 @@ export default function ManageUser() {
           if(res.data === true)
             window.location.reload();
           else{
-            alert("영구 정지 오류 발생");
+            alert("영구 정지에 오류가 발생하였습니다.");
             Navigate('/manager/user');
           }
         });
@@ -93,11 +94,11 @@ export default function ManageUser() {
 
   return (
     <div>
-      <Header />
+      <Header keyword="회원 관리"/>
       <div className="ManageMain">
         <table className="UserList">
           <thead className="UserHead">
-            <tr>
+            <tr className="ListRow">
               <td className="UserId">아이디</td>
               <td className="UserNickname">닉네임</td>
               <td className="UserName">이름</td>
@@ -110,6 +111,17 @@ export default function ManageUser() {
             {UserList}
           </tbody>
         </table>
+        <div className="ManageBottom">
+          <div className="ManageSearch">
+            <input type="text" onChange={e=>SetSearchWord(e.target.value)}></input>
+            <button type="button">검색</button>
+          </div>
+          <div>
+            <Link to="/manager/user">
+              <button className="AllList" type="button" hidden={SearchWord===''}>전체 목록</button>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

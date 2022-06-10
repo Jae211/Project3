@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import moment from "moment";
 import Axios from "axios";
 import Header from "../../components/Header";
 import "../../style/Management.css"
@@ -30,10 +31,10 @@ export default function ManageReport() {
     }
     
     return (
-      <tr className="ListRow" onClick={ToReport}>
+      <tr className="ListRow">
         <td className="ReportId">{props.reportid}</td>
         <td className="ReportType">{props.type}</td>
-        <td className="ReportTitle">{props.title}</td>
+        <td className="ReportTitleToDetail" onClick={ToReport}>{props.title}</td>
         <td className="ReporterId">{props.reporterid}</td>
         <td className="ReportDate">{props.date}</td>
         <td className="IsSolved"><div className={props.issolved}>{props.issolved==='Complete' ? '완료' : '미완료'}</div></td>
@@ -48,17 +49,17 @@ export default function ManageReport() {
           IsSolved ='Complete';
       UserList.push(
           <ListItem key={i} reportid={Report[i].report_id} type={Report[i].report_type} title={Report[i].report_title}
-          reporterid={Report[i].reporter_id} date={Report[i].report_date} issolved={IsSolved}/>
+          reporterid={Report[i].reporter_id} date={moment(Report[i].report_date).format("YYYY-MM-DD")} issolved={IsSolved}/>
       );
   }
 
   return (
       <div>
-          <Header />
+          <Header keyword="신고 관리"/>
           <div className="ManageMain">
               <table className="ReportList">
                   <thead className="ReportHead">
-                      <tr>
+                      <tr className="ListRow">
                           <td className="ReportId">번호</td>
                           <td className="ReportType">유형</td>
                           <td className="ReportTitle">제목</td>
