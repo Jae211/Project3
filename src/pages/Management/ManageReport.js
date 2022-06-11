@@ -24,14 +24,14 @@ export default function ManageReport() {
   const offset = (page - 1) * limit;
 
   // 검색 단어
-  const [SearchWord, SetSearchWord] = useState('');
+  const [SearchWord, SetSearchWord] = useState();
 
   useEffect(()=>{
-      Axios.get('http://localhost:8080/manager/report')
-      .then((res)=>{
-          console.log(res.data);
-          SetReport(res.data);
-      });
+    Axios.get('http://localhost:8080/manager/report')
+    .then((res)=>{
+        console.log(res.data);
+        SetReport(res.data);
+    });
   },[]);
 
   let ReportList = [];
@@ -54,7 +54,7 @@ export default function ManageReport() {
       <div className="ManageMain">
         <table className="ReportList">
           <thead className="ReportHead">
-            <tr className="ListRow">
+            <tr>
               <td className="ReportId">번호</td>
               <td className="ReportType">유형</td>
               <td className="ReportTitle">제목</td>

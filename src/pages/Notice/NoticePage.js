@@ -4,14 +4,19 @@ import Axios from 'axios';
 import Header from "../../components/Header"
 import NoticeListComponent from "./components/NoticeListComponent";
 import Pagination from "../../components/Pagination";
+import getCookie from "../../components/GetCookie";
 import "../../style/Notice.css";
 
 export default function Notice(){
-  // 관리자인지 확인 필요
-  const IsManager = true;
-
-  // 검색 단어
-  const [SearchWord, SetSearchWord] = useState('');
+  const Cookie = getCookie("is_login");
+  var IsManager = false;
+  const [SearchWord, SetSearchWord] = useState();
+  
+  if(Cookie === "true"){
+    const managerid = localStorage.getItem("manager_id");
+    if(managerid !== null)
+      IsManager = true;
+  }
 
   // 공지사항 정보
   const [Notice, SetNotice] = useState([{ 

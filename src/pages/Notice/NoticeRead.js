@@ -3,17 +3,24 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Axios from 'axios';
 import moment from 'moment';
 import Header from "../../components/Header"
+import getCookie from "../../components/GetCookie";
 import "../../style/Notice.css";
 
-export default function NoticeRead(){  
+export default function NoticeRead(){
     let Navigate = useNavigate();
     let Location = useLocation();
 
-    // 관리자인지 확인 필요
-    var IsManager = true;
-    const Date = IsManager ? '수정 날짜' : '작성 날짜';
+    const Cookie = getCookie("is_login");
+    var IsManager = false;
+    
+    if(Cookie === "true"){
+        const managerid = localStorage.getItem("manager_id");
+        if(managerid !== null)
+        IsManager = true;
+    }
     
     // 관리자라면 수정 날짜 받아오기
+    const Date = IsManager ? '수정 날짜' : '작성 날짜';
     if(IsManager){
         var now = moment();
         var UpdateDate = now.format('YYYY-MM-DD');
@@ -26,12 +33,11 @@ export default function NoticeRead(){
     const [NoticeTitle, SetNoticeTitle] = useState('');
     const [NoticeContent, SetNoticeContent] = useState('');
     const [NoticeImg, SetNoticeImg] = useState('');
-    const [ImgName, SetImgName] = useState('');
+    // const [ImgName, SetImgName] = useState('');
 
     // location의 pathname으로부터 noticd_id 얻기
     useEffect(()=>{
         console.log('location', Location);
-        // SetNoticeId(Location.pathname.split('/').slice(-1)[0]);
     }, [Location]);
     const NoticeId = Location.pathname.split('/').slice(-1)[0];
 
@@ -51,7 +57,6 @@ export default function NoticeRead(){
     // 공지사항 수정
     const UpdateClick = ()=>{
         if(window.confirm("해당 내용으로 수정하시겠습니까?") === true){ 
-            /* 이미지 수정하고 싶은데 잘 안되네요... */
             // console.log("imgname:",ImgName,"\nnoticeImg:",NoticeImg);
             // if(ImgName!==''){
             //     // 이미지 업로드를 위해 formdata 생성
@@ -140,7 +145,7 @@ export default function NoticeRead(){
                         </tr>
                         <tr className="n_row">
                             <th className="n_th">{Date}</th>
-                            <td><input className="n_td" type='text' value={IsManager?UpdateDate:NoticeDate} readOnly/></td>
+                            <td><input className="n_td" type='text' value={IsManager?UpdateDate:moment(NoticeDate).format("YYYY-MM-DD")} readOnly/></td>
                         </tr>
                         <tr className="n_row">
                             <th className="n_th">작성자</th>
@@ -152,10 +157,10 @@ export default function NoticeRead(){
                                 <textarea className="n_td_content" value={NoticeContent} readOnly={!IsManager} onChange={(e) => SetNoticeContent(e.target.value)}/>
                             </td>
                         </tr>
-                        <tr className="n_row">
+                        <tr className="n_row" hidden={NoticeImg===null}>
                             <th className="n_th">이미지</th>
                             <td>
-                                <img className="n_td_image" src={NoticeImg} alt="이미지" hidden={NoticeImg===null?true:false}/>
+                                <img className="n_td_image" src={NoticeImg} alt="이미지"/>
                                 {/* <input className="n_td_image" type="file" accept="image/png, image/jpeg"
                                     onChange={(e) => {SetNoticeImg(e.target.files[0]); SetImgName(e.target.files[0].name); console.log(NoticeImg, ImgName)}}/> */}
                             </td>

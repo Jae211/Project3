@@ -26,8 +26,8 @@ export default function SearchReport() {
   const offset = (page - 1) * limit;
 
   // 검색 단어
-  const [Word, SetWord] = useState('');
-  const [SearchWord, SetSearchWord] = useState('');
+  const [Word, SetWord] = useState();
+  const [SearchWord, SetSearchWord] = useState();
   useEffect(()=>{
     const TempWord = location.state.searchword;
     SetSearchWord(TempWord);
@@ -62,7 +62,7 @@ export default function SearchReport() {
         <div className="SearchResult"><span>{SearchWord}</span>에 대한 검색결과입니다.</div>
         <table className="ReportList">
           <thead className="ReportHead">
-            <tr className="ListRow">
+            <tr>
               <td className="ReportId">번호</td>
               <td className="ReportType">유형</td>
               <td className="ReportTitle">제목</td>

@@ -21,7 +21,7 @@ export default function ManageUser() {
   const offset = (page - 1) * limit;
 
   // 검색 단어
-  const [SearchWord, SetSearchWord] = useState('');
+  const [SearchWord, SetSearchWord] = useState();
   
   useEffect(()=>{
     Axios.get('http://localhost:8080/manager/user')
@@ -48,7 +48,7 @@ export default function ManageUser() {
       <div className="ManageMain">
         <table className="UserList">
           <thead className="UserHead">
-            <tr className="ListRow">
+            <tr>
               <td className="UserId">아이디</td>
               <td className="UserNickname">닉네임</td>
               <td className="UserName">이름</td>
