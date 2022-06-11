@@ -50,7 +50,7 @@ export default function Notice(){
 
   return (
     <div className='main'>
-      <Header detail='공지사항'/>
+      <Header keyword='공지사항'/>
       <main className="noticeMain">       
         <table className="noticeList">
           <thead className="noticeHead">

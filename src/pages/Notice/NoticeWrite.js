@@ -60,7 +60,7 @@ export default function NoticeWrite(){
 
     return (
         <div>
-            <Header detail='공지사항'/>
+            <Header keyword='공지사항'/>
             <main className="noticeMain">
                 <table className="noticeWrite">
                     <tbody>

@@ -130,7 +130,7 @@ export default function NoticeRead(){
 
     return (
         <div>
-            <Header detail='공지사항'/>
+            <Header keyword='공지사항'/>
             <main className="noticeMain">
                 <table className="noticeRead">
                     <tbody>

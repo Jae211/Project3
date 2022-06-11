@@ -52,7 +52,7 @@ export default function NoticeSearch(){
 
     return (
         <div>
-            <Header detail='공지사항'/>
+            <Header keyword='공지사항'/>
             <main className="noticeMain">
                 <div className="SearchResult"><span>{SearchWord}</span>에 대한 검색결과입니다.</div>
                 <table className="noticeList">
