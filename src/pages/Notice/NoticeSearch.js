@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Axios from 'axios';
-import moment from 'moment';
-import Header from "../../components/Header"
+import Axios from "axios";
+import moment from "moment";
+import Header from "../../components/Header";
 import NoticeListComponent from "./components/NoticeListComponent";
 import Pagination from "../../components/Pagination";
 import getCookie from "../../components/GetCookie";
