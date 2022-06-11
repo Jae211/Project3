@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import Axios from "axios";
 import moment from "moment";
 import Header from "../../components/Header";
+import ManagerHeader from "../../components/Header3";
 import NoticeListComponent from "./components/NoticeListComponent";
 import Pagination from "../../components/Pagination";
 import getCookie from "../../components/GetCookie";
@@ -66,7 +67,9 @@ export default function NoticeSearch(){
 
 	return (
 		<div>
-			<Header keyword='공지사항'/>
+			{IsManager ?
+      <ManagerHeader keyword='공지사항'/> :
+      <Header keyword='공지사항'/>}
 			<main className="noticeMain">
 				<div className="SearchResult"><span>{SearchWord}</span>에 대한 검색결과입니다.</div>
 				<table className="noticeList">

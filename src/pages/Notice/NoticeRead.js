@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Axios from 'axios';
 import moment from 'moment';
 import Header from "../../components/Header"
+import ManagerHeader from "../../components/Header3";
 import getCookie from "../../components/GetCookie";
 import "../../style/Notice.css";
 
@@ -134,7 +135,9 @@ export default function NoticeRead(){
 
   return (
     <div>
-      <Header keyword='공지사항'/>
+      {IsManager ?
+      <ManagerHeader keyword='공지사항 | 상세'/> :
+      <Header keyword='공지사항 | 상세'/>}
       <main className="noticeMain">
         <table className="noticeRead">
           <tbody>

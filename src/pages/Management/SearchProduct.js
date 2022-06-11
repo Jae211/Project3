@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import Axios from "axios";
-import Header from "../../components/Header";
+import ManagerHeader from "../../components/Header3";
 import ProductListItem from "./components/ProductListItem";
 import Pagination from "../../components/Pagination";
 import "../../style/Management.css"
@@ -61,7 +61,7 @@ export default function SearchProduct() {
 
   return (
     <div>
-      <Header keyword="게시글 관리"/>
+      <ManagerHeader keyword="게시글 관리"/>
       <div className="ManageMain">
         <div className="SearchResult"><span>{SearchWord}</span>에 대한 검색결과입니다.</div>
         <table className="ReportedProduct" hidden={ReportedList.length === 0}>

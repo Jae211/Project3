@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from 'axios';
 import moment from 'moment';
-import Header from "../../components/Header"
+import ManagerHeader from "../../components/Header3"
 import getCookie from "../../components/GetCookie";
 import "../../style/Notice.css";
 
@@ -74,7 +74,7 @@ export default function NoticeWrite(){
    
   return (
     <div>
-      <Header keyword='공지사항'/>
+      <ManagerHeader keyword='공지사항 | 작성'/>
         <main className="noticeMain">
           <table className="noticeWrite">
             <tbody>

@@ -37,7 +37,7 @@ export default function ReportBoard(){
           console.log(res.data);
           SetReport(res.data);
       });
-  },[]);
+  },[ReporterId]);
 
   let ReportList = [];
   if(Report.length === 0){

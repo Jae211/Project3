@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import Axios from "axios";
-import Header from "../../components/Header";
+import ManagerHeader from "../../components/Header3";
 import UserListItem from "./components/UserListItem";
 import Pagination from "../../components/Pagination";
 import "../../style/Management.css"
@@ -52,7 +52,7 @@ export default function SearchUser() {
 
   return (
     <div>
-      <Header keyword="회원 관리"/>
+      <ManagerHeader keyword="회원 관리"/>
       <div className="ManageMain">
       <div className="SearchResult"><span>{SearchWord}</span>에 대한 검색결과입니다.</div>
         <table className="UserList">

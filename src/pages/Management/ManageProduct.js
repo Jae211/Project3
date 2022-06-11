@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-import Header from "../../components/Header";
+import ManagerHeader from "../../components/Header3";
 import ProductListItem from "./components/ProductListItem";
 import Pagination from "../../components/Pagination";
 import "../../style/Management.css"
@@ -54,7 +54,7 @@ export default function ManageProduct() {
 
   return (
     <div>
-      <Header keyword="게시글 관리"/>
+      <ManagerHeader keyword="게시글 관리"/>
       <div className="ManageMain">
         <table className="ReportedProduct" hidden={ReportedList.length === 0}>
           <caption>신고 접수된 게시글</caption>

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Axios from 'axios';
 import moment from "moment";
 import Header from "../../components/Header"
+import ManagerHeader from "../../components/Header3";
 import getCookie from "../../components/GetCookie";
 
 export default function ReportDetail(){
@@ -11,11 +12,9 @@ export default function ReportDetail(){
 
   const cookie = getCookie("is_login");
   var IsManager = false;
-  let UserId = '';
   let ManagerId = '';
 
   if(cookie === "true"){
-    UserId = localStorage.getItem("user_id");
     ManagerId = localStorage.getItem("manager_id");
     if(ManagerId !== null)
       IsManager = true;
@@ -42,7 +41,7 @@ export default function ReportDetail(){
     solve_content: '',
   });
 
-  const [SolveContent, SetSolveContent] = useState('');
+  const [SolveContent, SetSolveContent] = useState();
 
   // location의 pathname으로부터 report_id 얻기
   useEffect(()=>{
@@ -69,7 +68,7 @@ export default function ReportDetail(){
         solve_content: SolveContent,
       }).then((res)=>{
         console.log(res);
-        if(res.data === false) alert("신고 답변 저장 실패");
+        if(res.data === false) alert("신고 답변 저장을 실패하였습니다.");
         Navigate(-1);
       });
     }
@@ -82,7 +81,7 @@ export default function ReportDetail(){
         report_id: Content.report_id
       }).then((res)=>{
         console.log(res);
-        if(res.data === false) alert("신고 삭제 실패");
+        if(res.data === false) alert("신고 삭제를 실패하였습니다.");
         Navigate(-1);
       });
     }
@@ -114,7 +113,9 @@ export default function ReportDetail(){
 
   return (
     <div>
-      <Header keyword='신고 상세 내용'/>
+      {IsManager ?
+      <ManagerHeader keyword='신고 | 상세'/> :
+      <Header keyword='신고 | 상세'/>}
       <main className="ReportMain">
         <table className="ReportTable">
           <caption>문의</caption>
